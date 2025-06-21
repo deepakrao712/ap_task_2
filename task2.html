@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact & To-Do</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      backdrop-filter: blur(8px);
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      flex: 1;
+    }
+
+    .glass-card {
+      flex: 1 1 400px;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+      color: #fff;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: scale(1.01);
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.3rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    input, textarea {
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      background: #00c9a7;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #008c75;
+    }
+
+    .todo ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+
+    .todo li {
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+      margin-bottom: 0.6rem;
+      padding: 0.7rem;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .todo li button {
+      background: red;
+      border: none;
+      color: #fff;
+      padding: 0.3rem 0.7rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  Contact Form & To-Do App
+</header>
+
+<div class="container">
+  <!-- Contact Form -->
+  <form id="contactForm" class="glass-card">
+    <h2>Contact Us</h2>
+    <label for="name">Name:</label>
+    <input type="text" id="name" required />
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" required />
+
+    <label for="message">Message:</label>
+    <textarea id="message" rows="4" required></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- To-Do List -->
+  <div class="todo glass-card">
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Enter task..." />
+    <button id="addTask">Add Task</button>
+    <ul id="taskList"></ul>
+  </div>
+</div>
+
+<script>
+  // Form Validation
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!name || !email || !message) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    alert("Form submitted successfully!");
+    this.reset();
+  });
+
+  // To-Do List Functionality
+  document.getElementById("addTask").addEventListener("click", function () {
+    const taskInput = document.getElementById("taskInput");
+    const taskValue = taskInput.value.trim();
+
+    if (taskValue === "") {
+      alert("Please enter a task.");
+      return;
+    }
+
+    const li = document.createElement("li");
+    li.innerHTML = `${taskValue} <button onclick="this.parentElement.remove()">X</button>`;
+    document.getElementById("taskList").appendChild(li);
+
+    taskInput.value = "";
+  });
+</script>
+
+</body>
+</html>
